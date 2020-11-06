@@ -1,0 +1,67 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "[NO-WATCH] Launch via ts-node-dev",
+            "type": "pwa-node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/ts-node-dev",
+            "args": [
+                "--clear",
+                "--debounce",
+                "2000",
+                "--poll",
+                "--ignore-watch",
+                ".*",
+                "-r",
+                "tsconfig-paths/register",
+                "--",
+                "${workspaceRoot}/src/index.ts",
+                "${env:SHEETS_SERVER_CONFIG}"
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "tsconfig-paths/**"
+            ],
+            "resolveSourceMapLocations": [
+                "${workspaceFolder}/**",
+                "!${workspaceFolder}/app/node_modules/**"
+            ],
+            "env": {
+                "SHEETS_SERVER_CONFIG": "$SHEETS_SERVER_CONFIG"
+            },
+            "restart": false
+        },
+        {
+            "name": "Launch via ts-node-dev",
+            "type": "node",
+            "request": "launch",
+            "protocol": "inspector",
+            "cwd": "${workspaceRoot}",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/ts-node-dev",
+            "args": [
+                "--clear",
+                "--debounce",
+                "2000",
+                "--poll",
+                "-r",
+                "tsconfig-paths/register",
+                "--",
+                "${workspaceRoot}/src/index.ts",
+                "${env:SHEETS_SERVER_CONFIG}"
+            ],
+            "skipFiles": [
+                "<node_internals>/**",
+                "ts-config-paths/**"
+            ],
+            "env": {
+                "SHEETS_SERVER_CONFIG": "$SHEETS_SERVER_CONFIG"
+            },
+            "restart": true
+        },
+    ]
+}

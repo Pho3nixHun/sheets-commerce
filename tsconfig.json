@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "target": "es6",
+        "module": "commonjs",
+        "resolveJsonModule": true,
+        "paths": {
+            "@utils/*": ["src/utils/*"],
+            "@services/*": ["src/services/*"],
+            "@routers/*": ["src/routers/*"],
+            "@definitions/*": ["src/types/*"],
+            "@models/*": ["src/models/*"],
+            "@controllers/*": ["src/controllers/*"],
+            "@app": ["src/app.ts"],
+            "~": ["src/*"],
+            "@package": ["package.json"]
+        }
+    }
+}
