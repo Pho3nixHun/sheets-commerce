@@ -1,6 +1,5 @@
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
-import * as pkg from '@package';
 import * as Static from 'koa-static';
 import Ejs = require('ejs');
 
@@ -140,9 +139,6 @@ const createAppServer = async (config: Config) => {
     );
 
     router
-        .get('/version', (ctx: Koa.Context) => {
-            ctx.body = pkg.version;
-        })
         .get("/", async (ctx: Koa.Context) => {
             const { html, locals } = viewTemplates['checkout'];
             ctx.body = await render(html, locals, config['views']['options']);
@@ -153,7 +149,7 @@ const createAppServer = async (config: Config) => {
         .use(router.allowedMethods())
         .use(driveChangesHookRoutes.routes())
         .use(productRoutes.routes())
-        //.use(orderRoutes.routes())
+        .use(orderRoutes.routes())
         .use(barionRoutes.routes())
         .use(Static(config.server.static.root, config.server.static.opts))
         .listen(port, host, () => {
