@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Router = require("koa-router");
-const sheets_1 = require("@services/sheets");
-const drive_1 = require("@services/drive");
+const sheets_1 = require("../services/sheets");
+const drive_1 = require("../services/drive");
 const Url = require("url");
 exports.default = (driveWatchService) => {
     const router = new Router();

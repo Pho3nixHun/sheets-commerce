@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const Router = require("koa-router");
 const bodyparser = require("koa-bodyparser");
-const orderManager_1 = require("@services/orderManager");
+const orderManager_1 = require("../services/orderManager");
 const defaultErrorHandler = ex => ex;
 exports.default = (prefix, orderManagerService, view) => {
     const router = new Router();

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const RFS = require("rotating-file-stream");
 const morgan = require("koa-morgan");
-const config_1 = require("@definitions/config");
+const config_1 = require("../types/config");
 const createFilestream = (path, type, config) => {
     const rfsOptions = Object.assign({ path }, config);
     return RFS.createStream(`${type}.log`, rfsOptions);

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccessType = void 0;
 const fs_1 = require("fs");
 const googleapis_1 = require("googleapis");
-const fileRights_1 = require("@utils/fileRights");
+const fileRights_1 = require("../utils/fileRights");
 const util_1 = require("util");
 var AccessType;
 (function (AccessType) {

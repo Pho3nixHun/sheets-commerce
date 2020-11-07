@@ -2,6 +2,14 @@ import GoogleService from "@services/google";
 import { promisify } from "util";
 import * as Loki from 'lokijs';
 
+type RangeRegexCaptureGroup = {
+    sheet: string,
+    startColumn: string,
+    startRow: string,
+    endColumn: string,
+    endRow: string
+}
+
 export class RangeDefinition {
     constructor(
         public sheet?: string,
@@ -24,7 +32,7 @@ export class RangeDefinition {
         const execResult = formats.reduce((res:RegExpExecArray | null, re): RegExpExecArray | null => res || re.exec(range), null);
         
         if (!execResult) throw new Error(`Cannot translate range (${range}) to RangeDefinition`);
-        const {sheet, startColumn, startRow, endColumn, endRow} = execResult.groups;
+        const {sheet, startColumn, startRow, endColumn, endRow} = <RangeRegexCaptureGroup> execResult.groups;
         return new RangeDefinition(sheet, startColumn, parseInt(startRow), endColumn, parseInt(endRow));
     }
     public get range(): string {
@@ -78,7 +86,7 @@ export default class SheetsService<T> {
         disableChangesApi: false
     });
     static transformRow(headers: string[], adjustIndexBy: number = 1, row: string[], rowIndex: number): Row<any> {
-        const reducer = (acc: Row<any>, header, index): Row<any> => {
+        const reducer = (acc: Row<any>, header: string, index: number): Row<any> => {
             acc[header] = row[index];
             return acc;
         }
@@ -87,7 +95,7 @@ export default class SheetsService<T> {
         }
         return headers.reduce(reducer, { $row: rowIndex + adjustIndexBy, isEmpty: false });
     }
-    private static stripUpdateResponse(response): CreateResult {
+    private static stripUpdateResponse(response: any): CreateResult {
         const { updatedCells, updatedRange, updatedColumns, updatedRows, $row } = response;
         return {
             updatedRange,
@@ -97,7 +105,7 @@ export default class SheetsService<T> {
             $row
         }
     }
-    private static stripAppendResponse(response): CreateResult {
+    private static stripAppendResponse(response: any): CreateResult {
         const { updatedCells, updatedRange, updatedColumns, updatedRows, $row } = response;
         return {
             updatedRange,
@@ -107,7 +115,7 @@ export default class SheetsService<T> {
             $row
         }
     }
-    private static stripClearResponse(response): DeleteResult {
+    private static stripClearResponse(response: any): DeleteResult {
         const { clearedRange } = response;
         return {
             clearedRange
@@ -122,8 +130,8 @@ export default class SheetsService<T> {
     private updateRaw = promisify(this.googleService.Sheets.spreadsheets.values.update.bind(this.googleService.Sheets.spreadsheets.values));
     private clearRaw = promisify(this.googleService.Sheets.spreadsheets.values.clear.bind(this.googleService.Sheets.spreadsheets.values));
     
-    private readPromise: Promise<any>;
-    private headers: Array<string>;
+    private readPromise: Promise<any> = Promise.resolve();
+    private headers: Array<string> = [];
     constructor(
         private googleService: GoogleService, 
         public readonly spreadsheetId: string,

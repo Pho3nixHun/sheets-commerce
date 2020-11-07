@@ -10,11 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderManager = exports.Order = exports.Action = exports.ErrorWithDetails = void 0;
-const Order_1 = require("@definitions/Order");
+const Order_1 = require("../types/Order");
 const uuid_1 = require("uuid");
-const ZIPS = require("@utils/zip.json");
-const barion_1 = require("@services/barion");
-const szamlazz_1 = require("@services/szamlazz");
+const ZIPS = require("../utils/zip.json");
+const barion_1 = require("./barion");
+const szamlazz_1 = require("./szamlazz");
 class ErrorWithDetails extends Error {
     constructor(message, details) {
         super(message);

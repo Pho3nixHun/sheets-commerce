@@ -1,21 +1,20 @@
 {
-    "compilerOptions": {
-        "baseUrl": "./",
-        "target": "es6",
-        "module": "commonjs",
-        "resolveJsonModule": true,
-        "outDir": "./dist",
-        "rootDir": "./src",
-        "paths": {
-            "@utils/*": ["src/utils/*"],
-            "@services/*": ["src/services/*"],
-            "@routers/*": ["src/routers/*"],
-            "@definitions/*": ["src/types/*"],
-            "@models/*": ["src/models/*"],
-            "@controllers/*": ["src/controllers/*"],
-            "@app": ["src/app.ts"],
-            "~": ["src/*"],
-            "@package": ["package.json"]
-        }
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "paths": {
+      "@utils/*": ["src/utils/*"],
+      "@services/*": ["src/services/*"],
+      "@routers/*": ["src/routers/*"],
+      "@definitions/*": ["src/types/*"],
+      "@models/*": ["src/models/*"],
+      "@controllers/*": ["src/controllers/*"],
+      "@app": ["src/app"],
+      "~": ["src/*"]
     }
+  }
 }

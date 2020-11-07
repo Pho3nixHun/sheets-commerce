@@ -4,8 +4,10 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "start": "ts-node-dev -r tsconfig-paths/register --clear --debounce 2000 --poll -- src/index.ts $SHEETS_SERVER_CONFIG",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./dist/index.js $SHEETS_SERVER_CONFIG",
+    "start-dev": "ts-node-dev -r tsconfig-paths/register --clear --debounce 2000 --poll -- src/index.ts $SHEETS_SERVER_CONFIG",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist"
   },
   "keywords": [],
   "author": "",
@@ -20,12 +22,14 @@
     "koa-morgan": "^1.0.1",
     "koa-router": "^9.0.1",
     "koa-static": "^5.0.0",
+    "koa-subdomain": "^3.0.0",
     "libxmljs2": "^0.26.0",
     "lokijs": "^1.5.9",
     "node-barion": "^2.1.1",
     "nodemailer": "^6.4.10",
     "rotating-file-stream": "^2.1.1",
     "szamlazz.js": "git+https://github.com/Pho3nixHun/szamlazz.js.git",
+    "tscpaths": "0.0.9",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

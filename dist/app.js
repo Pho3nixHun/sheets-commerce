@@ -12,24 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.main = void 0;
 const Koa = require("koa");
 const Router = require("koa-router");
-const pkg = require("@package");
 const Static = require("koa-static");
 const Ejs = require("ejs");
 const fs_1 = require("fs");
-const logger_1 = require("@routers/logger");
-const sheets_1 = require("@routers/sheets");
-const orders_1 = require("@routers/orders");
-const drive_changes_1 = require("@routers/drive-changes");
-const barion_1 = require("@routers/barion");
-const googleAuthServer_1 = require("@utils/googleAuthServer");
+const logger_1 = require("./routers/logger");
+const sheets_1 = require("./routers/sheets");
+const orders_1 = require("./routers/orders");
+const drive_changes_1 = require("./routers/drive-changes");
+const barion_1 = require("./routers/barion");
+const googleAuthServer_1 = require("./utils/googleAuthServer");
 const http_1 = require("http");
 const events_1 = require("events");
-const sheets_2 = require("@services/sheets");
-const gmail_1 = require("@services/gmail");
-const drive_1 = require("@services/drive");
-const szamlazz_1 = require("@services/szamlazz");
-const barion_2 = require("@services/barion");
-const orderManager_1 = require("@services/orderManager");
+const sheets_2 = require("./services/sheets");
+const gmail_1 = require("./services/gmail");
+const drive_1 = require("./services/drive");
+const szamlazz_1 = require("./services/szamlazz");
+const barion_2 = require("./services/barion");
+const orderManager_1 = require("./services/orderManager");
 const util_1 = require("util");
 const render = util_1.promisify(Ejs.renderFile.bind(Ejs));
 const createServices = (config) => __awaiter(void 0, void 0, void 0, function* () {
@@ -108,9 +107,6 @@ const createAppServer = (config) => __awaiter(void 0, void 0, void 0, function* 
     const driveChangesHookRoutes = drive_changes_1.default(services.driveWatchService);
     const barionRoutes = barion_1.default('/barion', services.orderManagerService, viewTemplates['order']);
     router
-        .get('/version', (ctx) => {
-        ctx.body = pkg.version;
-    })
         .get("/", (ctx) => __awaiter(void 0, void 0, void 0, function* () {
         const { html, locals } = viewTemplates['checkout'];
         ctx.body = yield render(html, locals, config['views']['options']);
@@ -120,7 +116,7 @@ const createAppServer = (config) => __awaiter(void 0, void 0, void 0, function* 
         .use(router.allowedMethods())
         .use(driveChangesHookRoutes.routes())
         .use(productRoutes.routes())
-        //.use(orderRoutes.routes())
+        .use(orderRoutes.routes())
         .use(barionRoutes.routes())
         .use(Static(config.server.static.root, config.server.static.opts))
         .listen(port, host, () => {

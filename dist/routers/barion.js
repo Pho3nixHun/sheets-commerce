@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Ejs = require("ejs");
 const util_1 = require("util");
 const Router = require("koa-router");
-const orderManager_1 = require("@services/orderManager");
+const orderManager_1 = require("../services/orderManager");
 const render = util_1.promisify(Ejs.renderFile.bind(Ejs));
 exports.default = (prefix, orderManagerSerive, view, { redirectPath = '/redirect', callbackPath = '/callback' } = {}) => {
     const router = new Router();

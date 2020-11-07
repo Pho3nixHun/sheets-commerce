@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const _app_1 = require("@app");
+const _app_1 = require("./app");
 ((configPath) => __awaiter(void 0, void 0, void 0, function* () {
     const config = yield Promise.resolve().then(() => require(configPath)).catch(() => false);
     const app = config && _app_1.main(config);

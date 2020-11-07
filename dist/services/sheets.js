@@ -77,6 +77,8 @@ class SheetsService {
         this.appendRaw = util_1.promisify(this.googleService.Sheets.spreadsheets.values.append.bind(this.googleService.Sheets.spreadsheets.values));
         this.updateRaw = util_1.promisify(this.googleService.Sheets.spreadsheets.values.update.bind(this.googleService.Sheets.spreadsheets.values));
         this.clearRaw = util_1.promisify(this.googleService.Sheets.spreadsheets.values.clear.bind(this.googleService.Sheets.spreadsheets.values));
+        this.readPromise = Promise.resolve();
+        this.headers = [];
         this.transforms = {};
         this.applyTransforms = (row) => {
             const transforms = Object.keys(this.transforms);

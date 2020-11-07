@@ -1,6 +1,5 @@
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
-import * as pkg from '@package';
 import { Config, ServerConfig } from '@definitions/config'; 
 import LoggerRouteGenerator from '@routers/logger';
 import GoogleService from '@services/google';
