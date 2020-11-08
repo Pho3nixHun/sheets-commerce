@@ -130,7 +130,7 @@ const createAppServer = async (config: Config) => {
         services.orderManagerService,
         viewTemplates['order']
     );
-    const driveChangesHookRoutes = DriveChanhesHookGenerator(services.driveWatchService);
+    const driveChangesHookRoutes = DriveChanhesHookGenerator(services.driveWatchService, config["google-watch-response-file"]);
 
     const barionRoutes = BarionRouteGenerator(
         '/barion',

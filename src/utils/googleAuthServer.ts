@@ -5,10 +5,8 @@ import LoggerRouteGenerator from '@routers/logger';
 import GoogleService from '@services/google';
 import { GoogleCredentials } from '@services/google';
 import * as url from 'url';
-import { createReadStream, promises as fs } from 'fs';
+import { createReadStream } from 'fs';
 import { Server } from 'http';
-import { promisify } from 'util';
-import * as path from 'path';
 
 export const loadGoogleCredentials = async (path: string): Promise<GoogleCredentials | Boolean>  => {
     const googleCredentials = await import(path).catch(e => false);
@@ -21,15 +19,6 @@ export const setupGoogleService = async (googleCredentials: GoogleCredentials, r
         return googleService;
     }
     return new Error('Google credentials or refreshToken was not set.');
-}
-const getFile = async (googleService: GoogleService, fileId: string) => {
-    const getFile = promisify(googleService.Drive.files.get.bind(googleService.Drive.files));
-
-        const response = await getFile({fileId}).catch(err => err);
-        if (response && response.status >= 200 && response.status < 300) {
-            return response;
-        }
-        return false;
 }
 
 export const main = async (config: Config): Promise<Server|boolean> => {
@@ -63,8 +52,6 @@ export const main = async (config: Config): Promise<Server|boolean> => {
             }
             ctx.redirect('/');
             googleService.initializeApis();
-            const fileInfo = await getFile(googleService, config['spreadsheet']['spreadsheetId']);
-            await fs.writeFile(path.join(config['persistent-storage'], 'fileinfo.json'), JSON.stringify(fileInfo, null, 4)).catch(Function);
             return server.close();
         })
         .get('/challenge', async (ctx: Koa.Context) => {

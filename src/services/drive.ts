@@ -1,5 +1,6 @@
 import GoogleService from "@services/google";
 import { promisify } from "util";
+import { promises as fs} from 'fs';
 
 export type WatchToken = {
     expiration: string,
@@ -75,9 +76,12 @@ export default class DriveWatchService {
         });
     }
 
-    async rewatch(): Promise<Boolean|any> {
+    async rewatch(saveResponsePath?: string): Promise<Boolean|any> {
         const unwatchResponse: UnwatchResponse = await this.unwatch( ).catch(err => err);
         const watchResponse: WatchResponse = await this.watch().catch(err => err);
+        if (saveResponsePath) {
+            fs.writeFile(saveResponsePath, JSON.stringify([unwatchResponse, watchResponse], null, 4)).catch(Boolean);
+        }
         if (
             (!(unwatchResponse instanceof Error) || unwatchResponse.code === 404) &&
             !(watchResponse instanceof Error) &&

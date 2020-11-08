@@ -104,7 +104,7 @@ const createAppServer = (config) => __awaiter(void 0, void 0, void 0, function* 
     loggerRoutes.forEach(route => app.use(route));
     const productRoutes = sheets_1.default('/products', services.productsSheetsService);
     const orderRoutes = orders_1.default('/orders', services.orderManagerService, viewTemplates['order']);
-    const driveChangesHookRoutes = drive_changes_1.default(services.driveWatchService);
+    const driveChangesHookRoutes = drive_changes_1.default(services.driveWatchService, config["google-watch-response-file"]);
     const barionRoutes = barion_1.default('/barion', services.orderManagerService, viewTemplates['order']);
     router
         .get("/", (ctx) => __awaiter(void 0, void 0, void 0, function* () {

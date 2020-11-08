@@ -4,10 +4,10 @@ import SheetsService from '@services/sheets';
 import DriveWatchService from '@services/drive';
 import * as Url from 'url';
 
-export default (driveWatchService: DriveWatchService): Router => {
+export default (driveWatchService: DriveWatchService, saveWatchResponsePath?: string): Router => {
     const router = new Router();
     const notificationPath = Url.parse(driveWatchService.address).pathname;
-    driveWatchService.rewatch();
+    driveWatchService.rewatch(saveWatchResponsePath);
     router.post(notificationPath, async (ctx: Koa.Context) => {
         const {
             //'x-goog-channel-expiration': expiration,

@@ -13,10 +13,10 @@ const Router = require("koa-router");
 const sheets_1 = require("../services/sheets");
 const drive_1 = require("../services/drive");
 const Url = require("url");
-exports.default = (driveWatchService) => {
+exports.default = (driveWatchService, saveWatchResponsePath) => {
     const router = new Router();
     const notificationPath = Url.parse(driveWatchService.address).pathname;
-    driveWatchService.rewatch();
+    driveWatchService.rewatch(saveWatchResponsePath);
     router.post(notificationPath, (ctx) => __awaiter(void 0, void 0, void 0, function* () {
         const { 
         //'x-goog-channel-expiration': expiration,

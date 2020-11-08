@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const util_1 = require("util");
+const fs_1 = require("fs");
 class DriveWatchService {
     constructor(googleService, id, resourceId, address) {
         this.googleService = googleService;
@@ -58,10 +59,13 @@ class DriveWatchService {
             });
         });
     }
-    rewatch() {
+    rewatch(saveResponsePath) {
         return __awaiter(this, void 0, void 0, function* () {
             const unwatchResponse = yield this.unwatch().catch(err => err);
             const watchResponse = yield this.watch().catch(err => err);
+            if (saveResponsePath) {
+                fs_1.promises.writeFile(saveResponsePath, JSON.stringify([unwatchResponse, watchResponse], null, 4)).catch(Boolean);
+            }
             if ((!(unwatchResponse instanceof Error) || unwatchResponse.code === 404) &&
                 !(watchResponse instanceof Error) &&
                 watchResponse.status >= 200 &&

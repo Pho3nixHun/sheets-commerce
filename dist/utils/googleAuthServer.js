@@ -16,8 +16,6 @@ const logger_1 = require("../routers/logger");
 const google_1 = require("../services/google");
 const url = require("url");
 const fs_1 = require("fs");
-const util_1 = require("util");
-const path = require("path");
 exports.loadGoogleCredentials = (path) => __awaiter(void 0, void 0, void 0, function* () {
     const googleCredentials = yield Promise.resolve().then(() => require(path)).catch(e => false);
     return googleCredentials;
@@ -28,14 +26,6 @@ exports.setupGoogleService = (googleCredentials, refreshTokenPath) => __awaiter(
         return googleService;
     }
     return new Error('Google credentials or refreshToken was not set.');
-});
-const getFile = (googleService, fileId) => __awaiter(void 0, void 0, void 0, function* () {
-    const getFile = util_1.promisify(googleService.Drive.files.get.bind(googleService.Drive.files));
-    const response = yield getFile({ fileId }).catch(err => err);
-    if (response && response.status >= 200 && response.status < 300) {
-        return response;
-    }
-    return false;
 });
 exports.main = (config) => __awaiter(void 0, void 0, void 0, function* () {
     const googleCredentials = yield exports.loadGoogleCredentials(config['google-credentials-file']);
@@ -67,8 +57,6 @@ exports.main = (config) => __awaiter(void 0, void 0, void 0, function* () {
         }
         ctx.redirect('/');
         googleService.initializeApis();
-        const fileInfo = yield getFile(googleService, config['spreadsheet']['spreadsheetId']);
-        yield fs_1.promises.writeFile(path.join(config['persistent-storage'], 'fileinfo.json'), JSON.stringify(fileInfo, null, 4)).catch(Function);
         return server.close();
     }))
         .get('/challenge', (ctx) => __awaiter(void 0, void 0, void 0, function* () {

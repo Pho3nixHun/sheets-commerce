@@ -75,6 +75,7 @@ export type Config = {
     "google-refreshtoken-file": string,
     "szamlazz.hu-config": string,
     "barion-config": string,
+    "google-watch-response-file": string,
     views: views
     spreadsheet: SpreadsheetConfig,
     email: EmailConfig,
