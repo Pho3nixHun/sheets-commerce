@@ -391,7 +391,7 @@ export class OrderManager {
     async sendEmails(order: Order, invoice: Buffer) {
         const emailOptions: SimpleMailOptions = {
             to: order.email,
-            subject: `[TEST] Számlád elkészült`,
+            subject: this.options.emailOptions.templates.transactional.subject,
             attachments: [
                 { filename: `${order.name}.pdf`, content: invoice}
             ],

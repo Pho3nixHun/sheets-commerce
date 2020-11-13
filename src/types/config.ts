@@ -48,6 +48,7 @@ export type EmailConfig = {
     sales: Email,
     templates: {
         transactional: {
+            subject: string,
             html: string,
             locals: string
         }

@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "start": "node ./dist/index.js $SHEETS_SERVER_CONFIG",
-    "start-dev": "ts-node-dev -r tsconfig-paths/register --clear --debounce 2000 --poll -- src/index.ts $SHEETS_SERVER_CONFIG",
+    "start-build": "node ./dist/index.js $SHEETS_SERVER_CONFIG",
+    "start": "ts-node-dev -r tsconfig-paths/register --clear --debounce 2000 --poll -- src/index.ts $SHEETS_SERVER_CONFIG",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist"
   },
