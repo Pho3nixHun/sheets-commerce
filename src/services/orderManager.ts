@@ -474,6 +474,7 @@ export namespace OrderManager {
             sales: string,
             templates: {
                 [key in string]: {
+                    subject?: string,
                     html: string,
                     locals: string
                 }

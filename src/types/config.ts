@@ -46,13 +46,7 @@ export type EmailConfig = {
     from: Email,
     technical: Email,
     sales: Email,
-    templates: {
-        transactional: {
-            subject: string,
-            html: string,
-            locals: string
-        }
-    }
+    templates: templates & { [key in string]: { subject: string } }
 }
 export type viewRenderOptions = {
     layout: boolean,

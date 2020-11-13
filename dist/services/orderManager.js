@@ -321,7 +321,7 @@ class OrderManager {
         return __awaiter(this, void 0, void 0, function* () {
             const emailOptions = {
                 to: order.email,
-                subject: `[TEST] Számlád elkészült`,
+                subject: this.options.emailOptions.templates.transactional.subject,
                 attachments: [
                     { filename: `${order.name}.pdf`, content: invoice }
                 ],
