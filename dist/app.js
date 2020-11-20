@@ -19,7 +19,9 @@ const logger_1 = require("./routers/logger");
 const sheets_1 = require("./routers/sheets");
 const orders_1 = require("./routers/orders");
 const drive_changes_1 = require("./routers/drive-changes");
+const coupon_1 = require("./routers/coupon");
 const barion_1 = require("./routers/barion");
+// import TestRouteGenerator from './routers/test-view';
 const googleAuthServer_1 = require("./utils/googleAuthServer");
 const http_1 = require("http");
 const events_1 = require("events");
@@ -104,6 +106,7 @@ const createAppServer = (config) => __awaiter(void 0, void 0, void 0, function* 
     loggerRoutes.forEach(route => app.use(route));
     const productRoutes = sheets_1.default('/products', services.productsSheetsService);
     const orderRoutes = orders_1.default('/orders', services.orderManagerService, viewTemplates['order']);
+    const coupunRoutes = coupon_1.default('/coupon', services.ordersSheetsService, viewTemplates['coupon']);
     const driveChangesHookRoutes = drive_changes_1.default(services.driveWatchService, config["google-watch-response-file"]);
     const barionRoutes = barion_1.default('/barion', services.orderManagerService, viewTemplates['order']);
     router
@@ -118,6 +121,8 @@ const createAppServer = (config) => __awaiter(void 0, void 0, void 0, function* 
         .use(productRoutes.routes())
         .use(orderRoutes.routes())
         .use(barionRoutes.routes())
+        .use(coupunRoutes.routes())
+        //        .use((await TestRouteGenerator('/email', config.email.templates.transactional)).routes())
         .use(Static(config.server.static.root, config.server.static.opts))
         .listen(port, host, () => {
         console.log(`Listening on port ${host}:${port}`);

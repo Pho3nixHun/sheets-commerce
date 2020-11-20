@@ -293,7 +293,7 @@ class OrderManager {
                         this.updateOrder(order, Order.State.EMAIL_FAILED, emailResponse);
                         throw new ErrorWithDetails('Email cannot be sent', { emailResponse });
                     }
-                    this.updateOrder(order, Order.State.DONE);
+                    this.updateOrder(order, Order.State.DONE, _paymentState);
                 }
                 if ([barion_1.PaymentStatus.CANCELED, barion_1.PaymentStatus.EXPIRED, barion_1.PaymentStatus.FAILED, barion_1.PaymentStatus].includes(Status)) {
                     this.updateOrder(order, Order.State.PAYMENT_FAILED);
@@ -319,6 +319,8 @@ class OrderManager {
     }
     sendEmails(order, invoice) {
         return __awaiter(this, void 0, void 0, function* () {
+            const locals = Object.assign({}, this.options.emailOptions.templates.transactional.locals);
+            locals.coupon.link = `${locals.coupon.base}/${order.orderNumber}`;
             const emailOptions = {
                 to: order.email,
                 subject: this.options.emailOptions.templates.transactional.subject,
