@@ -358,7 +358,7 @@ export class OrderManager {
                     this.updateOrder(order, Order.State.EMAIL_FAILED, emailResponse);
                     throw new ErrorWithDetails('Email cannot be sent', { emailResponse });
                 }
-                this.updateOrder(order, Order.State.DONE);
+                this.updateOrder(order, Order.State.DONE, _paymentState);
             }
             if ([PaymentStatus.CANCELED, PaymentStatus.EXPIRED, PaymentStatus.FAILED, PaymentStatus].includes(Status)) {
                 this.updateOrder(order, Order.State.PAYMENT_FAILED);
@@ -389,6 +389,8 @@ export class OrderManager {
         return response;
     }
     async sendEmails(order: Order, invoice: Buffer) {
+        const locals = <any> Object.assign({}, this.options.emailOptions.templates.transactional.locals);
+        locals.coupon.link = `${locals.coupon.base}/${order.orderNumber}`;
         const emailOptions: SimpleMailOptions = {
             to: order.email,
             subject: this.options.emailOptions.templates.transactional.subject,

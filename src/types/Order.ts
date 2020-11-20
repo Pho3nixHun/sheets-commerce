@@ -1,6 +1,5 @@
-import BarionService, { ShippingAddress, Item, PaymentTransaction, PaymentType, Currency, ChallengePreference, BillingAddress, PaymentStatus } from "@services/barion"
-import SheetsService, { Row } from "@services/sheets";
-import SzamlazzService from "@services/szamlazz";
+import { ShippingAddress, PaymentTransaction, PaymentType, Currency, ChallengePreference, PaymentStatus } from "@services/barion"
+import { Row } from "@services/sheets";
 import { ProductRow } from '@definitions/Product';
 
 export enum Status {

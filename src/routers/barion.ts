@@ -3,19 +3,16 @@ import Ejs = require('ejs');
 import { promisify } from 'util';
 import Router = require('koa-router');
 import { ErrorWithDetails, OrderManager } from '@services/orderManager';
+import { viewOptions } from '@definitions/config';
 
 export type Options = { redirectPath?: string, callbackPath?: string }
-export type view = {
-    html: string,
-    locals: any
-}
 
 const render = promisify(Ejs.renderFile.bind(Ejs));
 
 export default (
     prefix: string,
     orderManagerSerive: OrderManager,
-    view: view,
+    view: viewOptions,
     { redirectPath = '/redirect', callbackPath ='/callback'}: Options = {}
 ): Router => {
     const router = new Router();

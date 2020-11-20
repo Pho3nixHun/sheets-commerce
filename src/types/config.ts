@@ -46,18 +46,19 @@ export type EmailConfig = {
     from: Email,
     technical: Email,
     sales: Email,
-    templates: templates & { [key in string]: { subject: string } }
+    templates: { [key in string]: viewOptions & { subject: string } }
 }
 export type viewRenderOptions = {
     layout: boolean,
     cache: boolean,
     async: boolean
 }
+export type viewOptions = {
+    html: string,
+    locals: string
+}
 export type templates = {
-    [key in string]: {
-        html: string,
-        locals: string
-    }
+    [key in string]: viewOptions
 }
 export type views = {
     options: viewRenderOptions,

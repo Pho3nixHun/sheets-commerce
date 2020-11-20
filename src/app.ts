@@ -12,7 +12,9 @@ import LoggerRouteGenerator from '@routers/logger';
 import SheetsRouteGenerator from '@routers/sheets';
 import OrderRouteGenerator from '@routers/orders';
 import DriveChanhesHookGenerator from '@routers/drive-changes';
+import CouponRouteGenerator from '@routers/coupon';
 import BarionRouteGenerator from '@routers/barion'
+// import TestRouteGenerator from '@routers/test-view';
 import GoogleAuthServerHelper, { loadGoogleCredentials, setupGoogleService } from '@utils/googleAuthServer';
 import { Server } from 'http';
 import { once } from 'events';
@@ -130,6 +132,7 @@ const createAppServer = async (config: Config) => {
         services.orderManagerService,
         viewTemplates['order']
     );
+    const coupunRoutes = CouponRouteGenerator('/coupon', services.ordersSheetsService, viewTemplates['coupon'])
     const driveChangesHookRoutes = DriveChanhesHookGenerator(services.driveWatchService, config["google-watch-response-file"]);
 
     const barionRoutes = BarionRouteGenerator(
@@ -151,6 +154,8 @@ const createAppServer = async (config: Config) => {
         .use(productRoutes.routes())
         .use(orderRoutes.routes())
         .use(barionRoutes.routes())
+        .use(coupunRoutes.routes())
+//        .use((await TestRouteGenerator('/email', config.email.templates.transactional)).routes())
         .use(Static(config.server.static.root, config.server.static.opts))
         .listen(port, host, () => {
             console.log(`Listening on port ${host}:${port}`);
