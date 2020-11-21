@@ -57,8 +57,11 @@ class GmailService {
     renderTemplate(template, locals) {
         return __awaiter(this, void 0, void 0, function* () {
             const html = yield this.loadTemplate(template);
-            if (locals) {
+            if (typeof locals === 'string') {
                 return Ejs.render(html, yield this.loadLocals(locals));
+            }
+            else if (typeof locals === 'object') {
+                return Ejs.render(html, yield locals);
             }
             return html;
         });
