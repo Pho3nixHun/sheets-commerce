@@ -14,7 +14,7 @@ export type SimpleMailOptions = {
     text?: string,
     attachments?: Mail.Attachment[],
     template?: string
-    locals?: any
+    locals?: string|any
 }
 
 export default class GmailService {
@@ -54,10 +54,12 @@ export default class GmailService {
             }
         })
     }
-    private async renderTemplate(template: string, locals?: string) {
+    private async renderTemplate(template: string, locals?: string|object) {
         const html = await this.loadTemplate(template);
-        if (locals) {
+        if (typeof locals === 'string') {
             return Ejs.render(html, await this.loadLocals(locals));
+        } else if(typeof locals === 'object') {
+            return Ejs.render(html, await locals);
         }
         return html;
     }
