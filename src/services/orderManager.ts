@@ -404,7 +404,7 @@ export class OrderManager {
                 { filename: `${order.name}.pdf`, content: invoice }
             ],
             template: this.options.emailOptions.templates.transactional.html,
-            locals: this.options.emailOptions.templates.transactional.locals
+            locals
         }
         return this.emailService.send(emailOptions);
     }
