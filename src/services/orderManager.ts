@@ -2,6 +2,7 @@ import { OrderRow, State as OrderRowState } from "@definitions/Order";
 import SheetsService from "./sheets";
 import { ProductRow } from "@definitions/Product";
 import { v4 as uuidv4 } from 'uuid';
+import * as fs from 'fs';
 
 import * as ZIPS from '@utils/zip.json';
 import BarionService, { PaymentStatus } from "@services/barion";
@@ -248,6 +249,11 @@ export class OrderManager {
         Order.State.EMAIL_FAILED,
         Order.State.DONE
     ];
+    private emailLocals = this.loadJson(this.options.emailOptions.templates.transactional.locals);
+    private loadJson(jsonPath) {
+        const json = fs.readFileSync(jsonPath, {encoding: 'utf-8'});
+        return JSON.parse(json);
+    }
 
     constructor(
         private paymentService: BarionService,
@@ -389,13 +395,13 @@ export class OrderManager {
         return response;
     }
     async sendEmails(order: Order, invoice: Buffer) {
-        const locals = <any> Object.assign({}, this.options.emailOptions.templates.transactional.locals);
+        const locals = <any> Object.assign({}, this.emailLocals);
         locals.coupon.link = `${locals.coupon.base}/${order.orderNumber}`;
         const emailOptions: SimpleMailOptions = {
             to: order.email,
             subject: this.options.emailOptions.templates.transactional.subject,
             attachments: [
-                { filename: `${order.name}.pdf`, content: invoice}
+                { filename: `${order.name}.pdf`, content: invoice }
             ],
             template: this.options.emailOptions.templates.transactional.html,
             locals: this.options.emailOptions.templates.transactional.locals

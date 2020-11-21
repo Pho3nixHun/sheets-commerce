@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderManager = exports.Order = exports.Action = exports.ErrorWithDetails = void 0;
 const Order_1 = require("../types/Order");
 const uuid_1 = require("uuid");
+const fs = require("fs");
 const ZIPS = require("../utils/zip.json");
 const barion_1 = require("./barion");
 const szamlazz_1 = require("./szamlazz");
@@ -191,6 +192,11 @@ class OrderManager {
         this.orderService = orderService;
         this.productService = productService;
         this.options = options;
+        this.emailLocals = this.loadJson(this.options.emailOptions.templates.transactional.locals);
+    }
+    loadJson(jsonPath) {
+        const json = fs.readFileSync(jsonPath, { encoding: 'utf-8' });
+        return JSON.parse(json);
     }
     /*
         private checkOutstandingOrdersInterval: typeof setInterval;
@@ -319,7 +325,7 @@ class OrderManager {
     }
     sendEmails(order, invoice) {
         return __awaiter(this, void 0, void 0, function* () {
-            const locals = Object.assign({}, this.options.emailOptions.templates.transactional.locals);
+            const locals = Object.assign({}, this.emailLocals);
             locals.coupon.link = `${locals.coupon.base}/${order.orderNumber}`;
             const emailOptions = {
                 to: order.email,
