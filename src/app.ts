@@ -86,7 +86,8 @@ const createServices = async (config: Config) => {
             emailOptions: config['email'],
             invoiceOptions: {
 
-            }
+            },
+            serviceOptions: config["services"]["order-manager"]
         }
     )
 

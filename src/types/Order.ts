@@ -47,6 +47,8 @@ export type OrderRow = {
         PaymentId: string
     }[],
     Comment: string,
-    State: State
+    State: State,
+    Date: number,
+    Valid: number
 }
 

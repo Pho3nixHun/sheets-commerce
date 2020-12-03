@@ -31,6 +31,8 @@ export class Order {
 
     public $row: number;
     public InvoiceNumber: string;
+    public date: number = Date.now();
+    public valid: number = 15778476000; // Half year
 
     constructor(
         public readonly name: string,
@@ -61,6 +63,8 @@ export class Order {
             orderRow.OrderNumber,
             orderRow.Details
         );
+        order.date = orderRow.Date;
+        order.valid = orderRow.Valid;
         order.$row = orderRow.$row;
         return order;
     }
@@ -189,7 +193,9 @@ export class Order {
             Comment: this.comment,
             State: this.state,
             InvoiceNumber: this.InvoiceNumber,
-            $row: this.$row
+            $row: this.$row,
+            Date: this.date,
+            Valid: this.valid
         }
     }
 
@@ -266,7 +272,7 @@ export class OrderManager {
     }
 /*
     private checkOutstandingOrdersInterval: typeof setInterval;
-    async checkOutstandingOrders() {
+    async checkOutstandingOrders() { 
         const [outstandingPayments, missingInvoice, missingEmail] = await Promise.all([
             await this.orderService.find({ State: Order.State.AWAITING_PAYMENT }),
             await this.orderService.find({ State: Order.State.INVOICE_FAILED }),
@@ -319,7 +325,9 @@ export class OrderManager {
             InvoiceAddress: order.invoice,
             Comment: order.comment,
             State: order.state,
-            Details: order.details
+            Details: order.details,
+            Date: Date.now(),
+            Valid: this.options.serviceOptions?.couponTtl || 15552000000
         }).catch(ex => ex);
         if (result instanceof Error) {
             throw result;
@@ -488,7 +496,10 @@ export namespace OrderManager {
                 }
             }
         },
-        invoiceOptions: Object
+        invoiceOptions: Object,
+        serviceOptions: {
+            couponTtl: number
+        }
     }
 
     export namespace Options {

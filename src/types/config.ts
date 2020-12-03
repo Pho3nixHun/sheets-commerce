@@ -67,6 +67,11 @@ export type views = {
 
 export type Config = {
     "persistent-storage": string,
+    "services": {
+        "order-manager": {
+            "couponTtl": number
+        }
+    },
     "google-credentials-file": string,
     "google-refreshtoken-file": string,
     "szamlazz.hu-config": string,

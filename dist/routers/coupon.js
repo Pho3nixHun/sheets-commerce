@@ -30,13 +30,8 @@ exports.default = (prefix, orderService, view) => {
             ctx.body = yield render(view.html, Object.assign({}, view.locals, { error: ctx.status }));
             return;
         }
-        const item = (order.Items || []);
-        const lastItem = item[item.length - 1];
-        const detailsWithTransaction = ((order.Details || []).filter(d => d && d.Transactions));
-        const lastDetailsWithTransaction = detailsWithTransaction[detailsWithTransaction.length - 1];
-        const transactions = lastDetailsWithTransaction && (lastDetailsWithTransaction.Transactions || []);
-        const transaction = transactions[transactions.length - 1];
-        const purchaseDate = transaction && transaction.TransactionTime && new Date(transaction.TransactionTime);
+        const purchaseDate = order.Date;
+        const validUntil = order.Valid;
         if (!purchaseDate) {
             ctx.status = 503;
             ctx.body = yield render(view.html, Object.assign({}, view.locals, { error: ctx.status }));
@@ -44,9 +39,9 @@ exports.default = (prefix, orderService, view) => {
         }
         ctx.status = 200;
         ctx.body = yield render(view.html, Object.assign({}, view.locals, {
-            name: lastItem.Name,
-            description: lastItem.Description,
-            purchaseDate: purchaseDate.getTime(),
+            items: order.Items.map(itm => ({ name: itm.Name, description: itm.Description, count: itm.count })),
+            purchaseDate,
+            validUntil,
             orderId: order.OrderNumber
         }));
     }));

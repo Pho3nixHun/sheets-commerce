@@ -71,7 +71,8 @@ const createServices = (config) => __awaiter(void 0, void 0, void 0, function* (
             Payee: serviceOptions['Payee']
         },
         emailOptions: config['email'],
-        invoiceOptions: {}
+        invoiceOptions: {},
+        serviceOptions: config["services"]["order-manager"]
     });
     return {
         googleService,

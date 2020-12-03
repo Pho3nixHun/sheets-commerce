@@ -44,9 +44,13 @@ class Order {
         this.orderNumber = orderNumber;
         this.details = details;
         this.state = state;
+        this.date = Date.now();
+        this.valid = 15778476000; // Half year
     }
     static fromSheets(orderRow) {
         const order = new Order(orderRow.Customer, orderRow.Email, orderRow.Phone, orderRow.ShippingAddress, orderRow.InvoiceAddress, orderRow.Description, orderRow.Comment, orderRow.Items, orderRow.OrderNumber, orderRow.Details);
+        order.date = orderRow.Date;
+        order.valid = orderRow.Valid;
         order.$row = orderRow.$row;
         return order;
     }
@@ -122,7 +126,9 @@ class Order {
             Comment: this.comment,
             State: this.state,
             InvoiceNumber: this.InvoiceNumber,
-            $row: this.$row
+            $row: this.$row,
+            Date: this.date,
+            Valid: this.valid
         };
     }
     toOrderBody(payee, defaults) {
@@ -223,6 +229,7 @@ class OrderManager {
             }
         } */
     createOrder(nativeOrder) {
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const order = Order.fromNativeInput(nativeOrder);
             const nativeItems = (nativeOrder && nativeOrder.Items) || [];
@@ -253,7 +260,9 @@ class OrderManager {
                 InvoiceAddress: order.invoice,
                 Comment: order.comment,
                 State: order.state,
-                Details: order.details
+                Details: order.details,
+                Date: Date.now(),
+                Valid: ((_a = this.options.serviceOptions) === null || _a === void 0 ? void 0 : _a.couponTtl) || 15552000000
             }).catch(ex => ex);
             if (result instanceof Error) {
                 throw result;
